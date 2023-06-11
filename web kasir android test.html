@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Kasir</title>
+    <style>
+        /* CSS styling */
+        /* Gaya untuk layar dengan lebar maksimal 600px */
+@media (max-width: 600px) {
+    /* Atur tata letak, ukuran, dan gaya sesuai kebutuhan */
+}
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+      background-color: #F2DBBA;
+      padding: 0px;
+    }
+
+    .logo {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .logo img {
+      height: 100px;
+    }
+
+    .logo-text {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 10px;
+      font-weight: bold;
+    }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-gap: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 10px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        #item-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .item:last-child {
+            border-bottom: none;
+        }
+
+        .item .name {
+            flex: 1;
+        }
+
+        .item .price, .item .quantity, .item .total {
+            text-align: right;
+            margin-left: 10px;
+        }
+
+        #total {
+            font-weight: bold;
+            text-align: right;
+            margin-top: 10px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .button-container button {
+            margin-left: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+          <img src="C:\Users\Panji\OneDrive\Documents\Web development\Branding Kedai Rotasi-09.png" alt="Logo">
+        </div>
+        <div class="logo-text">Kedai Rotasi</div>
+      </div>
+    <div class="container">
+        <h1>kasir</h1>
+
+        <div class="input-group">
+            <label for="item-name">Nama Barang:</label>
+            <input type="text" id="item-name" placeholder="Masukkan nama barang">
+        </div>
+
+        <div class="input-group">
+            <label for="item-price">Harga Barang:</label>
+            <input type="number" id="item-price" placeholder="Masukkan harga barang">
+        </div>
+
+        <div class="input-group">
+            <label for="item-quantity">Jumlah Barang:</label>
+            <input type="number" id="item-quantity" placeholder="Masukkan jumlah barang">
+        </div>
+
+        <div class="button-container">
+            <button onclick="addItem()">Tambah Barang</button>
+            <button onclick="finishTransaction()">Selesai</button>
+            <button onclick="saveToDatabase()">Simpan ke Database</button>
+        </div>
+
+        <h2>Daftar Pembelian</h2>
+        <ul id="item-list"></ul>
+
+        <div id="total"></div>
+    </div>
+
+    <script>
+        // JavaScript code
+        var itemList = [];
+
+        function addItem() {
+            var name = document.getElementById("item-name").value;
+            var price = document.getElementById("item-price").value;
+            var quantity = document.getElementById("item-quantity").value;
+
+            var item = {
+                name: name,
+                price: price,
+                quantity: quantity
+            };
+
+            itemList.push(item);
+            displayItems();
+            calculateTotal();
+
+            // Reset input fields
+            document.getElementById("item-name").value = "";
+            document.getElementById("item-price").value = "";
+            document.getElementById("item-quantity").value = "";
+        }
+
+        function displayItems() {
+            var itemListElement = document.getElementById("item-list");
+            itemListElement.innerHTML = "";
+
+            for (var i = 0; i < itemList.length; i++) {
+                var item = itemList[i];
+                var listItem = document.createElement("li");
+                listItem.className = "item";
+                listItem.innerHTML = '<span class="name">' + item.name + '</span>' +
+                    '<span class="price">Harga: ' + item.price + '</span>' +
+                    '<span class="quantity">Jumlah: ' + item.quantity + '</span>' +
+                    '<span class="total">Total: ' + (item.price * item.quantity) + '</span>';
+                itemListElement.appendChild(listItem);
+            }
+        }
+
+        function calculateTotal() {
+            var total = 0;
+
+            for (var i = 0; i < itemList.length; i++) {
+                var item = itemList[i];
+                total += item.price * item.quantity;
+            }
+
+            document.getElementById("total").textContent = "Total Transaksi: " + total;
+        }
+        function finishTransaction() {
+            // Lakukan tindakan yang diperlukan ketika transaksi selesai
+            alert("Transaksi selesai. Bersiap untuk menyimpan ke database.");
+        }
+
+        function saveToDatabase() {
+  // Mengambil data barang dari itemList
+  var data = JSON.stringify(itemList);
+
+  fetch('/api/items', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: data,
+  })
+    .then(response => response.json())
+    .then(result => {
+      // Aksi yang ingin dilakukan setelah data berhasil disimpan ke database
+      console.log(result);
+      alert('Data barang berhasil disimpan ke database.');
+    })
+    .catch(error => {
+      // Aksi yang ingin dilakukan jika terjadi error
+      console.error('Error:', error);
+    });
+}
+    </script>
+</body>
+</html>
