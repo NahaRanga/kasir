@@ -1,0 +1,100 @@
+        /* CSS styling */
+        /* Gaya untuk layar dengan lebar maksimal 600px */
+@media (max-width: 600px) {
+    /* Atur tata letak, ukuran, dan gaya sesuai kebutuhan */
+}
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+      background-color: #F2DBBA;
+      padding: 0px;
+    }
+
+    .logo {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .logo img {
+      height: 100px;
+    }
+
+    .logo-text {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 10px;
+      font-weight: bold;
+    }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-gap: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 10px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        #item-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .item:last-child {
+            border-bottom: none;
+        }
+
+        .item .name {
+            flex: 1;
+        }
+
+        .item .price, .item .quantity, .item .total {
+            text-align: right;
+            margin-left: 10px;
+        }
+
+        #total {
+            font-weight: bold;
+            text-align: right;
+            margin-top: 10px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .button-container button {
+            margin-left: 10px;
+        }
